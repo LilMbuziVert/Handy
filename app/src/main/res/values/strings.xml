@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Handy</string>
+    <string name="index_finger_length_cm">Index Finger Length (cm)</string>
+    <string name="middle_finger_length_cm">Middle Finger Length (cm)</string>
+    <string name="ring_finger_length_cm">Ring Finger Length (cm)</string>
+    <string name="pinky_finger_length_cm">Pinky Finger Length (cm)</string>
+    <string name="forearm_length_elbow_to_wrist_cm">Forearm Length (elbow to wrist) (cm)</string>
+    <string name="save_measurements">Save Measurements</string>
+    <string name="calculate">Calculate</string>
+    <string name="result">Result:</string>
+    <string name="edit_measurements">Edit Measurements</string>
+</resources>
