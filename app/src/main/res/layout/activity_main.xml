@@ -8,11 +8,12 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <TextView
+    <!--Title-->
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Personal Measurement Converter"
+        android:text="@string/personal_measurement_converter"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,97 +21,145 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewMeasurementTypeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Measurement Type:"
+        android:text="@string/measurement_type"
         android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="32dp"/>
 
-    <Spinner
-        android:id="@+id/spinnerMeasurementType"
-        android:layout_width="0dp"
+    <!--Measurement Spinner-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutMeasurementType"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="@string/measurement_type"
         app:layout_constraintTop_toBottomOf="@id/textViewMeasurementTypeLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
-    <Spinner
-        android:id="@+id/spinnerFingerType"
-        android:layout_width="0dp"
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinnerMeasurementType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/textViewMeasurementTypeLabel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:inputType="none"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!--FingerSpinner-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutFingerType"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/spinnerMeasurementType"
+        android:hint="@string/finger_type"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementType"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:visibility="gone" />
+        android:visibility="gone">
 
-    <TextView
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/spinnerFingerType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:inputType="none"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewValueLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Number of Measurements:"
+        android:text="@string/number_of_measurements"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/spinnerFingerType"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutFingerType"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="24dp" />
 
-    <EditText
-        android:id="@+id/editTextMeasurementValue"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutMeasurementValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:hint="Ex: 2.5"
-        app:layout_constraintTop_toBottomOf="@id/textViewValueLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:hint="@string/measurement_example"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewValueLabel"
+        app:endIconMode="clear_text">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextMeasurementValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calculate"
-        app:layout_constraintTop_toBottomOf="@id/editTextMeasurementValue"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementValue" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewResultLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="@string/result"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/buttonCalculate"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="48dp" />
+        app:layout_constraintTop_toBottomOf="@id/buttonCalculate" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewResult"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:textColor="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/textViewResultLabel"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewResultLabel" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/edit_measurements"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="24dp" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

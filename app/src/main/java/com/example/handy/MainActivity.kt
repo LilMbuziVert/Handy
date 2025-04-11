@@ -2,38 +2,25 @@ package com.example.handy
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.toLowerCase
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.handy.ui.theme.HandyTheme
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var measurementConverter: MeasurementConverter
 
     //Input fields
-    private lateinit var spinnerMeasurementType: Spinner
-    private lateinit var spinnerFingerType: Spinner
+    private lateinit var spinnerMeasurementType: MaterialAutoCompleteTextView
+    private lateinit var spinnerFingerType: MaterialAutoCompleteTextView
     private lateinit var editTextMeasurementValue: EditText
     private lateinit var buttonCalculate: Button
+    private lateinit var buttonSettings: Button
     private lateinit var textViewResult: TextView
 
     // Available measurement types
@@ -49,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         spinnerFingerType = findViewById(R.id.spinnerFingerType)
         editTextMeasurementValue = findViewById(R.id.editTextMeasurementValue)
         buttonCalculate = findViewById(R.id.buttonCalculate)
+        buttonSettings = findViewById(R.id.buttonSettings)
         textViewResult = findViewById(R.id.textViewResult)
 
 
@@ -71,35 +59,36 @@ class MainActivity : AppCompatActivity() {
             calculateMeasurement()
         }
 
+
+        //setup measurement button
+        buttonSettings.setOnClickListener{
+            showSetupDialog()
+        }
+
     }
 
-    private fun setupSpinners(){
+    private fun setupSpinners() {
 
-        //Set up measurement type spinner
+        // Set up measurement type dropdown
         val measurementAdapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, measurementTypes
+            this, android.R.layout.simple_dropdown_item_1line, measurementTypes
         )
-        measurementAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerMeasurementType.adapter = measurementAdapter
+        (spinnerMeasurementType as? MaterialAutoCompleteTextView)?.setAdapter(measurementAdapter)
 
-        //Setup finger type spinner
+        // Setup finger type dropdown
         val fingerAdapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, fingerTypes
+            this, android.R.layout.simple_dropdown_item_1line, fingerTypes
         )
-        fingerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerFingerType.adapter = fingerAdapter
+        (spinnerFingerType as? MaterialAutoCompleteTextView)?.setAdapter(fingerAdapter)
 
-        //show/hide spinner based on selected measurement type
-        spinnerMeasurementType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent:AdapterView<*>?, view: View?, position: Int, id:Long){
-                spinnerFingerType.visibility = if (position == 1) View.VISIBLE else View.GONE
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                spinnerFingerType.visibility = View.GONE
-            }
-
+        // Handle selection for measurement type
+        (spinnerMeasurementType as? MaterialAutoCompleteTextView)?.setOnItemClickListener { _, _, position, _ ->
+            spinnerFingerType.visibility = if (position == 1) View.VISIBLE else View.GONE
         }
+
+        // Set initial selection to trigger the visibility logic
+        (spinnerMeasurementType as? MaterialAutoCompleteTextView)?.setText(measurementTypes[0], false)
+        spinnerFingerType.visibility = View.GONE
     }
 
     private fun loadMeasurements(){
@@ -151,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun calculateMeasurement() {
         try {
-            val measurementType = spinnerMeasurementType.selectedItem as String
+            val measurementType = spinnerMeasurementType.text.toString()
             val inputValue = editTextMeasurementValue.text.toString().toDoubleOrNull()
 
             if (inputValue == null) {
@@ -162,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             val result = when (measurementType) {
                 "Hand" -> measurementConverter.handsToMetric(inputValue)
                 "Finger" -> {
-                    val fingerType = spinnerFingerType.selectedItem as String
+                    val fingerType = spinnerFingerType.text.toString()
                     measurementConverter.fingersToMetric(fingerType.lowercase(Locale.ROOT), inputValue)
                 }
                 "Forearm" -> measurementConverter.forearmsToMetric(inputValue)
@@ -171,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
             // Display the result
             textViewResult.text = "$inputValue $measurementType ${
-                if (measurementType == "Finger") "(" + spinnerFingerType.selectedItem + ")" else ""
+                if (measurementType == "Finger") "(" + spinnerFingerType.text.toString() + ")" else ""
             } = ${result.value} ${result.unit}"
 
         } catch (e: Exception) {

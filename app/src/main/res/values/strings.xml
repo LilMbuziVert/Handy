@@ -9,4 +9,9 @@
     <string name="calculate">Calculate</string>
     <string name="result">Result:</string>
     <string name="edit_measurements">Edit Measurements</string>
+    <string name="personal_measurement_converter">Personal Measurement Converter</string>
+    <string name="measurement_type">Measurement Type:</string>
+    <string name="finger_type">finger_type\n</string>
+    <string name="number_of_measurements">Number of Measurements:</string>
+    <string name="measurement_example">"Ex: 2.5"\n</string>
 </resources>
