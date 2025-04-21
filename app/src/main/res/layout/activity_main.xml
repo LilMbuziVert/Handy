@@ -66,15 +66,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementValue" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textViewMeasurementTypeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/measurement_type"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewResult"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp"/>
 
     <!--Measurement Spinner-->
     <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:hint="@string/measurement_type"
-        app:layout_constraintTop_toBottomOf="@id/textViewMeasurementTypeLabel"
+        app:layout_constraintTop_toBottomOf="@id/textViewResult"
         app:layout_constraintStart_toStartOf="parent"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
@@ -91,7 +82,7 @@
             android:id="@+id/spinnerMeasurementType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/textViewMeasurementTypeLabel"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementType"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="8dp"
@@ -109,7 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/finger_type"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementType"
+        app:layout_constraintTop_toBottomOf="@id/textViewResult"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
@@ -143,7 +134,7 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutFingerType">
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementType">
 
         <!-- Digit buttons -->
         <com.google.android.material.button.MaterialButton
@@ -253,7 +244,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/keypad" />
-
 
 
     <com.google.android.material.button.MaterialButton
