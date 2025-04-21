@@ -21,13 +21,58 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="24dp" />
 
+    <!--Number of measurements input-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="?attr/textInputFilledStyle"
+        android:id="@+id/textInputLayoutMeasurementValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:boxStrokeColor="#fff"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusBottomStart="0dp"
+        app:boxCornerRadiusBottomEnd="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextMeasurementValue"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
+            android:gravity="end"
+            android:paddingBottom="10dp"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!--ResultBox-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textViewResult"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/result_box_background"
+        android:gravity="end"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementValue" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewMeasurementTypeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/measurement_type"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+        app:layout_constraintTop_toBottomOf="@id/textViewResult"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="32dp"/>
 
@@ -68,7 +113,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
             android:id="@+id/spinnerFingerType"
@@ -78,73 +124,137 @@
             android:clickable="true"
             android:focusable="true"
             android:inputType="none"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textViewValueLabel"
-        android:layout_width="wrap_content"
+    <!--Numpad-->
+    <GridLayout
+        android:id="@+id/keypad"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/number_of_measurements"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutFingerType"
+        android:columnCount="3"
+        android:rowCount="4"
+        android:layout_marginTop="16dp"
+        android:alignmentMode="alignBounds"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="true"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutMeasurementValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:hint="@string/measurement_example"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewValueLabel"
-        app:endIconMode="clear_text">
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutFingerType">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextMeasurementValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <!-- Digit buttons -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn7"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="7" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn8"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn9"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="9" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn4"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn5"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn6"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn1"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn2"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn3"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="3" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn0"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDot"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            style="@style/CircularButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:text="←" />
+    </GridLayout>
+
+    <!--Calculate button-->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonCalculate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/calculate"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementValue" />
+        app:layout_constraintTop_toBottomOf="@id/keypad" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textViewResultLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="@string/result"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonCalculate" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textViewResult"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:textColor="@android:color/holo_blue_dark"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewResultLabel" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSettings"
@@ -156,10 +266,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
@@ -68,28 +69,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSpinners() {
-
-        // Set up measurement type dropdown
+        // Set up measurement type adapter
         val measurementAdapter = ArrayAdapter(
-            this, android.R.layout.simple_dropdown_item_1line, measurementTypes
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            measurementTypes
         )
-        (spinnerMeasurementType as? MaterialAutoCompleteTextView)?.setAdapter(measurementAdapter)
 
-        // Setup finger type dropdown
+        // Set up finger type adapter
         val fingerAdapter = ArrayAdapter(
-            this, android.R.layout.simple_dropdown_item_1line, fingerTypes
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            fingerTypes
         )
-        (spinnerFingerType as? MaterialAutoCompleteTextView)?.setAdapter(fingerAdapter)
 
-        // Handle selection for measurement type
-        (spinnerMeasurementType as? MaterialAutoCompleteTextView)?.setOnItemClickListener { _, _, position, _ ->
-            spinnerFingerType.visibility = if (position == 1) View.VISIBLE else View.GONE
+        // Cast views to MaterialAutoCompleteTextView
+        val measurementDropdown = findViewById<MaterialAutoCompleteTextView>(R.id.spinnerMeasurementType)
+        val fingerDropdown = findViewById<MaterialAutoCompleteTextView>(R.id.spinnerFingerType)
+        val fingerLayout = findViewById<TextInputLayout>(R.id.textInputLayoutFingerType)
+
+        // Set adapters
+        measurementDropdown.setAdapter(measurementAdapter)
+        fingerDropdown.setAdapter(fingerAdapter)
+
+        // Handle selection logic
+        measurementDropdown.setOnItemClickListener { _, _, position, _ ->
+            fingerLayout.visibility = if (measurementTypes[position] == "Finger") View.VISIBLE else View.GONE
         }
 
-        // Set initial selection to trigger the visibility logic
-        (spinnerMeasurementType as? MaterialAutoCompleteTextView)?.setText(measurementTypes[0], false)
-        spinnerFingerType.visibility = View.GONE
+        // Set default selection and apply visibility logic accordingly
+        measurementDropdown.setText(measurementTypes[0], false)
+        fingerLayout.visibility = if (measurementTypes[0] == "Finger") View.VISIBLE else View.GONE
     }
+
 
     private fun loadMeasurements(){
         //Load saved measurements from savedPreferences
