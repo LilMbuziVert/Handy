@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -17,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var measurementConverter: MeasurementConverter
 
     //Input fields
-    private lateinit var spinnerMeasurementType: MaterialAutoCompleteTextView
-    private lateinit var spinnerFingerType: MaterialAutoCompleteTextView
     private lateinit var editTextMeasurementValue: EditText
     private lateinit var buttonCalculate: Button
     private lateinit var buttonSettings: Button
@@ -28,13 +27,16 @@ class MainActivity : AppCompatActivity() {
     private val measurementTypes = listOf("Hand", "Finger", "Forearm")
     private val fingerTypes = listOf("Thumb", "Index", "Middle", "Ring", "Pinky")
 
+
+    private var selectedMeasurementType:String = "Hand"
+    private var selectedFingerType: String = "Thumb"
+
+
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //Initialise views
-        spinnerMeasurementType = findViewById(R.id.spinnerMeasurementType)
-        spinnerFingerType = findViewById(R.id.spinnerFingerType)
         editTextMeasurementValue = findViewById(R.id.editTextMeasurementValue)
         buttonCalculate = findViewById(R.id.buttonCalculate)
         buttonSettings = findViewById(R.id.buttonSettings)
@@ -52,8 +54,9 @@ class MainActivity : AppCompatActivity() {
             showSetupDialog()
         }
 
-        //Setup spinners
-        setupSpinners()
+
+        setupMeasurementButtons()
+
 
         //Setup calculate button
         buttonCalculate.setOnClickListener {
@@ -68,39 +71,45 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupSpinners() {
-        // Set up measurement type adapter
-        val measurementAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            measurementTypes
+    private fun setupMeasurementButtons(){
+        val handButton = findViewById<Button>(R.id.buttonHand)
+        val fingerButton = findViewById<Button>(R.id.buttonFinger)
+        val forearmButton = findViewById<Button>(R.id.buttonForearm)
+        val fingerButtonsLayout= findViewById<LinearLayout>(R.id.fingerButtonsLayout)
+
+        //Finger buttons
+        val fingerButtons = mapOf(
+            "Thumb" to findViewById<Button>(R.id.buttonThumb),
+            "Index" to findViewById<Button>(R.id.buttonIndex),
+            "Middle" to findViewById<Button>(R.id.buttonMiddle),
+            "Ring" to findViewById<Button>(R.id.buttonRing),
+            "Pinky" to findViewById<Button>(R.id.buttonPinky)
+
         )
 
-        // Set up finger type adapter
-        val fingerAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            fingerTypes
-        )
-
-        // Cast views to MaterialAutoCompleteTextView
-        val measurementDropdown = findViewById<MaterialAutoCompleteTextView>(R.id.spinnerMeasurementType)
-        val fingerDropdown = findViewById<MaterialAutoCompleteTextView>(R.id.spinnerFingerType)
-        val fingerLayout = findViewById<TextInputLayout>(R.id.textInputLayoutFingerType)
-
-        // Set adapters
-        measurementDropdown.setAdapter(measurementAdapter)
-        fingerDropdown.setAdapter(fingerAdapter)
-
-        // Handle selection logic
-        measurementDropdown.setOnItemClickListener { _, _, position, _ ->
-            fingerLayout.visibility = if (measurementTypes[position] == "Finger") View.VISIBLE else View.GONE
+        handButton.setOnClickListener{
+            selectedMeasurementType = "Hand"
+            fingerButtonsLayout.visibility = View.GONE
         }
 
-        // Set default selection and apply visibility logic accordingly
-        measurementDropdown.setText(measurementTypes[0], false)
-        fingerLayout.visibility = if (measurementTypes[0] == "Finger") View.VISIBLE else View.GONE
+        fingerButton.setOnClickListener{
+            selectedMeasurementType = "Finger"
+            fingerButtonsLayout.visibility = View.VISIBLE
+        }
+
+        forearmButton.setOnClickListener{
+            selectedMeasurementType = "Forearm"
+            fingerButtonsLayout.visibility = View.GONE
+        }
+
+        for ((finger, button) in fingerButtons){
+            button.setOnClickListener{
+                selectedFingerType = finger
+                Toast.makeText(this, "$finger selected", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 
 
     private fun loadMeasurements(){
@@ -149,10 +158,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+
     private fun calculateMeasurement() {
         try {
-            val measurementType = spinnerMeasurementType.text.toString()
             val inputValue = editTextMeasurementValue.text.toString().toDoubleOrNull()
 
             if (inputValue == null) {
@@ -160,20 +168,16 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            val result = when (measurementType) {
+            val result = when (selectedMeasurementType) {
                 "Hand" -> measurementConverter.handsToMetric(inputValue)
-                "Finger" -> {
-                    val fingerType = spinnerFingerType.text.toString()
-                    measurementConverter.fingersToMetric(fingerType.lowercase(Locale.ROOT), inputValue)
-                }
+                "Finger" -> measurementConverter.fingersToMetric(selectedFingerType.lowercase(Locale.ROOT), inputValue)
                 "Forearm" -> measurementConverter.forearmsToMetric(inputValue)
                 else -> throw IllegalArgumentException("Unknown measurement type")
             }
 
             // Display the result
-            textViewResult.text = "$inputValue $measurementType ${
-                if (measurementType == "Finger") "(" + spinnerFingerType.text.toString() + ")" else ""
-            } = ${result.value} ${result.unit}"
+            val fingerText = if  (selectedMeasurementType == "Finger") "($selectedFingerType)" else ""
+            "$inputValue $selectedMeasurementType$fingerText = ${result.value}${result.unit}".also { textViewResult.text = it }
 
         } catch (e: Exception) {
             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
