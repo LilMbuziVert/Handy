@@ -13,6 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
+import android.os.Handler
+import android.os.Looper
+import androidx.core.content.res.ResourcesCompat
+import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
     private lateinit var measurementConverter: MeasurementConverter
@@ -41,6 +45,15 @@ class MainActivity : AppCompatActivity() {
         buttonCalculate = findViewById(R.id.buttonCalculate)
         buttonSettings = findViewById(R.id.buttonSettings)
         textViewResult = findViewById(R.id.textViewResult)
+
+        // Prevent keyboard from showing while keeping cursor visible
+        editTextMeasurementValue.showSoftInputOnFocus = false
+
+        // Request focus and show cursor immediately
+        editTextMeasurementValue.requestFocus()
+
+        //Set initial cursor position at the end
+        editTextMeasurementValue.setSelection(editTextMeasurementValue.text.length)
 
 
         //Load saved measurements or show setup dialog if not available
@@ -181,6 +194,54 @@ class MainActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
             Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun onKeypadClick(view: View) {
+        val inputField = findViewById<EditText>(R.id.editTextMeasurementValue)
+        val currentText = inputField.text.toString()
+        val currentCursorPosition = inputField.selectionStart
+
+        // Check if it's the backspace button
+        if (view.id == R.id.btnBack) {
+            // Only proceed if there's text and cursor isn't at the beginning
+            if (currentText.isNotEmpty() && currentCursorPosition > 0) {
+                // Create new text by removing the character before the cursor
+                val newText = StringBuilder(currentText)
+                    .deleteCharAt(currentCursorPosition - 1)
+                    .toString()
+
+                // Update text field
+                inputField.setText(newText)
+
+                // Place cursor at correct position (one position back from where it was)
+                inputField.setSelection(currentCursorPosition - 1)
+            }
+        } else {
+            // This is a normal button (number or decimal)
+            val button = view as MaterialButton
+
+            when (button.text) {
+                "." -> {
+                    // Prevent multiple dots in the input field
+                    if (!currentText.contains(".")) {
+                        // Insert at cursor position
+                        val newText = StringBuilder(currentText)
+                            .insert(currentCursorPosition, ".")
+                            .toString()
+                        inputField.setText(newText)
+                        inputField.setSelection(currentCursorPosition + 1)
+                    }
+                }
+                else -> {
+                    // For all other digits, insert at cursor position
+                    val newText = StringBuilder(currentText)
+                        .insert(currentCursorPosition, button.text)
+                        .toString()
+                    inputField.setText(newText)
+                    inputField.setSelection(currentCursorPosition + 1)
+                }
+            }
         }
     }
 
