@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     private var selectedMeasurementType:String = "Hand"
     private var selectedFingerType: String = "Thumb"
 
+    // Track the currently selected button
+    private var selectedButton: MaterialButton? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
@@ -71,6 +74,8 @@ class MainActivity : AppCompatActivity() {
         setupMeasurementButtons()
 
 
+
+
         //Setup calculate button
         buttonCalculate.setOnClickListener {
             calculateMeasurement()
@@ -84,41 +89,59 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setupMeasurementButtons(){
-        val handButton = findViewById<Button>(R.id.buttonHand)
-        val fingerButton = findViewById<Button>(R.id.buttonFinger)
-        val forearmButton = findViewById<Button>(R.id.buttonForearm)
+    private fun setupToggleButton(button: MaterialButton, type: String, showFingerButtons: Boolean) {
+
         val fingerButtonsLayout= findViewById<LinearLayout>(R.id.fingerButtonsLayout)
+
+        button.setOnClickListener {
+            if (selectedButton == button) {
+                // Deselect if already selected
+                button.isChecked = false
+                selectedButton = null
+                // Handle what happens when no button is selected
+            } else {
+                // Deselect previous button
+                selectedButton?.isChecked = false
+
+                // Select this button
+                button.isChecked = true
+                selectedButton = button
+
+                // Apply your specific logic
+                selectedMeasurementType = type
+                fingerButtonsLayout.visibility = if (showFingerButtons) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    private fun setupMeasurementButtons(){
+        val handButton : MaterialButton = findViewById(R.id.buttonHand)
+        val fingerButton : MaterialButton = findViewById(R.id.buttonFinger)
+        val forearmButton : MaterialButton = findViewById(R.id.buttonForearm)
+
+        // Set up each button
+        setupToggleButton(handButton, "Hand", false)
+        setupToggleButton(fingerButton, "Finger", true)
+        setupToggleButton(forearmButton, "Forearm", false)
+
+        // Set initial state
+        handButton.isChecked = true
+        selectedButton = handButton
+        selectedMeasurementType = "Hand"
 
         //Finger buttons
         val fingerButtons = mapOf(
-            "Thumb" to findViewById<Button>(R.id.buttonThumb),
-            "Index" to findViewById<Button>(R.id.buttonIndex),
-            "Middle" to findViewById<Button>(R.id.buttonMiddle),
-            "Ring" to findViewById<Button>(R.id.buttonRing),
+            "Thumb" to findViewById(R.id.buttonThumb),
+            "Index" to findViewById(R.id.buttonIndex),
+            "Middle" to findViewById(R.id.buttonMiddle),
+            "Ring" to findViewById(R.id.buttonRing),
             "Pinky" to findViewById<Button>(R.id.buttonPinky)
 
         )
 
-        handButton.setOnClickListener{
-            selectedMeasurementType = "Hand"
-            fingerButtonsLayout.visibility = View.GONE
-        }
-
-        fingerButton.setOnClickListener{
-            selectedMeasurementType = "Finger"
-            fingerButtonsLayout.visibility = View.VISIBLE
-        }
-
-        forearmButton.setOnClickListener{
-            selectedMeasurementType = "Forearm"
-            fingerButtonsLayout.visibility = View.GONE
-        }
-
         for ((finger, button) in fingerButtons){
             button.setOnClickListener{
                 selectedFingerType = finger
-                Toast.makeText(this, "$finger selected", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -218,7 +241,7 @@ class MainActivity : AppCompatActivity() {
                 inputField.setSelection(currentCursorPosition - 1)
             }
         } else {
-            // This is a normal button (number or decimal)
+            // This is a normal button (number)
             val button = view as MaterialButton
 
             when (button.text) {

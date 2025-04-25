@@ -80,37 +80,45 @@
         android:paddingTop="10dp"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/textViewResult">
+        
 
-        <Button
-            android:id="@+id/buttonHand"
-            style="?attr/materialIconButtonFilledTonalStyle"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:icon="@drawable/front_hand_24px"
-            android:layout_marginEnd="12dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"
-            />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonHand"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:icon="@drawable/front_hand_24px"
+                android:layout_marginEnd="12dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:iconSize="24dp"
+                android:checkable="true"/>
 
-        <Button
-            android:id="@+id/buttonFinger"
-            style="?attr/materialIconButtonFilledTonalStyle"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:icon="@drawable/touch_app_24px"
-            android:layout_marginEnd="12dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFinger"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:icon="@drawable/touch_app_24px"
+                android:layout_marginEnd="12dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:iconSize="24dp"
+                android:checkable="true"/>
 
-        <Button
-            android:id="@+id/buttonForearm"
-            style="?attr/materialIconButtonFilledTonalStyle"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            app:icon="@drawable/ulna_radius_alt_24px"
-            android:layout_marginEnd="0dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonForearm"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:icon="@drawable/ulna_radius_alt_24px"
+                android:layout_marginEnd="0dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:iconSize="24dp"
+                android:checkable="true"/>
+
+
     </LinearLayout>
 
     <!-- Finger Type Buttons (Shown when Finger is selected) -->
@@ -305,7 +313,7 @@
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             app:icon="@drawable/backspace_24px"
-            app:iconSize="20dp"
+            app:iconSize="24dp"
             app:iconPadding="0dp"
             app:iconGravity="textStart"/>
 
@@ -325,11 +333,11 @@
         <!--Calculate button-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonCalculate"
-            style="@style/CircularButton"
+            style="@style/CircularUtilityButton"
             android:layout_width="70dp"
             android:layout_height="70dp"
             app:icon="@drawable/equal_24px"
-            app:iconSize="20dp"
+            app:iconSize="24dp"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             android:layout_margin="8dp"
@@ -338,14 +346,14 @@
         <!--Measurement settings-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSettings"
-            style="@style/CircularButton"
+            style="@style/CircularUtilityButton"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="8dp"
             app:icon="@drawable/settings_24px"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconSize="20dp"/>
+            app:iconSize="24dp"/>
 
 
     </LinearLayout>
