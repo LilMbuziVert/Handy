@@ -5,112 +5,308 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+
+    <!--Number of measurements input-->
+    <com.google.android.material.textfield.TextInputLayout
+        style="?attr/textInputFilledStyle"
+        android:id="@+id/textInputLayoutMeasurementValue"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Personal Measurement Converter"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        app:boxStrokeColor="#fff"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:boxCornerRadiusBottomStart="0dp"
+        app:boxCornerRadiusBottomEnd="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp" />
-
-    <TextView
-        android:id="@+id/textViewMeasurementTypeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Measurement Type:"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp" />
+        >
 
-    <Spinner
-        android:id="@+id/spinnerMeasurementType"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/textViewMeasurementTypeLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextMeasurementValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:cursorVisible="true"
+            android:inputType="number"
+            android:paddingBottom="10dp"
+            android:textAppearance="@style/TextAppearance.Material3.DisplayLarge"
+            android:textSize="74sp"
+            android:textStyle="bold"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/spinnerFingerType"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/spinnerMeasurementType"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/textViewValueLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Number of Measurements:"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/spinnerFingerType"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp" />
-
-    <EditText
-        android:id="@+id/editTextMeasurementValue"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:hint="Ex: 2.5"
-        app:layout_constraintTop_toBottomOf="@id/textViewValueLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp" />
-
-    <Button
-        android:id="@+id/buttonCalculate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/calculate"
-        app:layout_constraintTop_toBottomOf="@id/editTextMeasurementValue"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp" />
-
-    <TextView
-        android:id="@+id/textViewResultLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/result"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/buttonCalculate"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="48dp" />
-
-    <TextView
+    <!--ResultBox-->
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textViewResult"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/result_box_background"
+        android:gravity="end"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="20dp"
+        android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
         android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@android:color/holo_blue_dark"
-        app:layout_constraintTop_toBottomOf="@id/textViewResultLabel"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textInputLayoutMeasurementValue" />
 
-    <Button
-        android:id="@+id/buttonSettings"
+
+    <!-- Measurement Type Buttons -->
+    <LinearLayout
+        android:id="@+id/measurementButtonsLayout"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/textViewResult">
+        
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonHand"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                app:icon="@drawable/front_hand_24px"
+                android:layout_marginEnd="12dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:iconSize="32dp"
+                android:checkable="true"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFinger"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                app:icon="@drawable/touch_app_24px"
+                android:layout_marginEnd="12dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:iconSize="32dp"
+                android:checkable="true"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonForearm"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                app:icon="@drawable/ulna_radius_alt_24px"
+                android:layout_marginEnd="0dp"
+                app:iconPadding="0dp"
+                app:iconGravity="textStart"
+                app:iconSize="32dp"
+                android:checkable="true"/>
+
+
+    </LinearLayout>
+
+    <!-- Finger Type Buttons (Shown when Finger is selected) -->
+    <LinearLayout
+        android:id="@+id/fingerButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/measurementButtonsLayout">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonThumb"
+            style="@style/FingerButtons"
+            android:text="Thumb"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonIndex"
+            style="@style/FingerButtons"
+            android:text="Index"
+            />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonMiddle"
+            style="@style/FingerButtons"
+            android:text="Middle"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonRing"
+            style="@style/FingerButtons"
+            android:text="Ring"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonPinky"
+            style="@style/FingerButtons"
+            android:text="Pinky"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/utilityButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="33dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/fingerButtonsLayout">
+
+
+        <!--Clear button-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAC"
+            style="@style/CircularUtilityButton"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:onClick="onKeypadClick"
+            android:backgroundTint="@color/material_dynamic_tertiary80"
+            android:text="AC" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            style="@style/CircularUtilityButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            app:icon="@drawable/baseline_backspace_24"
+            app:iconSize="32dp"
+            app:iconPadding="0dp"
+            app:iconGravity="textStart"/>
+
+        <!--Measurement settings-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSettings"
+            style="@style/CircularUtilityButton"
+            android:layout_margin="8dp"
+            app:icon="@drawable/baseline_settings_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="32dp"/>
+
+
+    </LinearLayout>
+
+    <!--Numpad-->
+    
+    <GridLayout
+        android:id="@+id/keypad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit_measurements"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:columnCount="3"
+        android:rowCount="5"
+        android:alignmentMode="alignMargins"
+        android:columnOrderPreserved="false"
+        android:useDefaultMargins="true"
+        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="24dp" />
+        app:layout_constraintTop_toBottomOf="@id/utilityButtonsLayout">
+
+        <!-- Digit buttons -->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn7"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:onClick="onKeypadClick"
+            android:text="7" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn8"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:onClick="onKeypadClick"
+            android:text="8" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn9"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="9" />
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn4"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn5"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="5" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn6"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="6" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn1"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn2"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="2" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn3"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="3" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn0"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnDot"
+            style="@style/CircularButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            android:text="." />
+
+        <!--Calculate button-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonCalculate"
+            style="@style/CircularButton"
+            app:backgroundTint="@color/material_dynamic_primary60"
+            app:iconTint="@color/material_dynamic_primary20"
+            app:icon="@drawable/equal_24px"
+            app:iconSize="32dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            android:layout_margin="8dp"
+            />
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
