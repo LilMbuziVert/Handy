@@ -7,20 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!--Title-->
-    <!--com.google.android.material.textview.MaterialTextView
-        android:id="@+id/textViewTitle"
-        android:color="#44464F"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/personal_measurement_converter"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="12dp" /-->
 
     <!--Number of measurements input-->
     <com.google.android.material.textfield.TextInputLayout
@@ -84,38 +70,38 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonHand"
-                style="?attr/materialIconButtonFilledTonalStyle"
+                style="?attr/materialIconButtonStyle"
                 android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 app:icon="@drawable/front_hand_24px"
                 android:layout_marginEnd="12dp"
                 app:iconPadding="0dp"
                 app:iconGravity="textStart"
-                app:iconSize="24dp"
+                app:iconSize="32dp"
                 android:checkable="true"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonFinger"
-                style="?attr/materialIconButtonFilledTonalStyle"
+                style="?attr/materialIconButtonStyle"
                 android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 app:icon="@drawable/touch_app_24px"
                 android:layout_marginEnd="12dp"
                 app:iconPadding="0dp"
                 app:iconGravity="textStart"
-                app:iconSize="24dp"
+                app:iconSize="32dp"
                 android:checkable="true"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonForearm"
-                style="?attr/materialIconButtonFilledTonalStyle"
+                style="?attr/materialIconButtonStyle"
                 android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 app:icon="@drawable/ulna_radius_alt_24px"
                 android:layout_marginEnd="0dp"
                 app:iconPadding="0dp"
                 app:iconGravity="textStart"
-                app:iconSize="24dp"
+                app:iconSize="32dp"
                 android:checkable="true"/>
 
 
@@ -134,52 +120,79 @@
         android:paddingTop="5dp"
         app:layout_constraintTop_toBottomOf="@id/measurementButtonsLayout">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonThumb"
-            style="?attr/materialIconButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            style="@style/FingerButtons"
             android:text="Thumb"
-            android:textSize="11sp"
-            android:layout_height="wrap_content"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonIndex"
+            style="@style/FingerButtons"
+            android:text="Index"
+            />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonMiddle"
+            style="@style/FingerButtons"
+            android:text="Middle"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonRing"
+            style="@style/FingerButtons"
+            android:text="Ring"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonPinky"
+            style="@style/FingerButtons"
+            android:text="Pinky"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/utilityButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="33dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/fingerButtonsLayout">
+
+
+        <!--Clear button-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAC"
+            style="@style/CircularUtilityButton"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:onClick="onKeypadClick"
+            android:backgroundTint="@color/material_dynamic_tertiary80"
+            android:text="AC" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            style="@style/CircularUtilityButton"
+            android:layout_margin="8dp"
+            android:onClick="onKeypadClick"
+            app:icon="@drawable/baseline_backspace_24"
+            app:iconSize="32dp"
             app:iconPadding="0dp"
             app:iconGravity="textStart"/>
 
-        <Button
-            android:id="@+id/buttonIndex"
-            style="?attr/materialIconButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Index"
-            android:textSize="11sp"
-            android:layout_height="wrap_content" />
+        <!--Measurement settings-->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSettings"
+            style="@style/CircularUtilityButton"
+            android:layout_margin="8dp"
+            app:icon="@drawable/baseline_settings_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="32dp"/>
 
-        <Button
-            android:id="@+id/buttonMiddle"
-            style="?attr/materialIconButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Middle"
-            android:textSize="11sp"
-            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/buttonRing"
-            style="?attr/materialIconButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Ring"
-            android:textSize="11sp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/buttonPinky"
-            style="?attr/materialIconButtonOutlinedStyle"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Pinky"
-            android:textSize="11sp"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!--Numpad-->
@@ -190,21 +203,19 @@
         android:layout_height="wrap_content"
         android:columnCount="3"
         android:rowCount="5"
-        android:layout_marginTop="15dp"
         android:alignmentMode="alignMargins"
         android:columnOrderPreserved="false"
         android:useDefaultMargins="true"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fingerButtonsLayout">
+        app:layout_constraintTop_toBottomOf="@id/utilityButtonsLayout">
 
         <!-- Digit buttons -->
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn7"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:gravity="center"
             android:onClick="onKeypadClick"
@@ -213,8 +224,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn8"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:gravity="center"
             android:onClick="onKeypadClick"
@@ -223,8 +232,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn9"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="9" />
@@ -234,8 +241,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn4"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="4" />
@@ -243,8 +248,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn5"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="5" />
@@ -252,8 +255,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn6"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="6" />
@@ -261,8 +262,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn1"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="1" />
@@ -270,8 +269,6 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn2"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="2" />
@@ -279,19 +276,14 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn3"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="3" />
 
 
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn0"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="0" />
@@ -299,65 +291,22 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnDot"
             style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_margin="8dp"
             android:onClick="onKeypadClick"
             android:text="." />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnBack"
-            style="@style/CircularButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            android:onClick="onKeypadClick"
-            app:icon="@drawable/backspace_24px"
-            app:iconSize="24dp"
-            app:iconPadding="0dp"
-            app:iconGravity="textStart"/>
-
-
-
-    </GridLayout>
-
-    <LinearLayout
-        android:id="@+id/utilityButtonsLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toBottomOf="@id/keypad">
-
         <!--Calculate button-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonCalculate"
-            style="@style/CircularUtilityButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            style="@style/CircularButton"
+            app:backgroundTint="@color/material_dynamic_primary60"
+            app:iconTint="@color/material_dynamic_primary20"
             app:icon="@drawable/equal_24px"
-            app:iconSize="24dp"
+            app:iconSize="32dp"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             android:layout_margin="8dp"
             />
-
-        <!--Measurement settings-->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonSettings"
-            style="@style/CircularUtilityButton"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="8dp"
-            app:icon="@drawable/settings_24px"
-            app:iconGravity="textStart"
-            app:iconPadding="0dp"
-            app:iconSize="24dp"/>
-
-
-    </LinearLayout>
-
-
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

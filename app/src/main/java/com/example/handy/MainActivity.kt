@@ -6,16 +6,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.MaterialAutoCompleteTextView
-import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
-import android.os.Handler
-import android.os.Looper
-import androidx.core.content.res.ResourcesCompat
 import com.google.android.material.button.MaterialButton
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     // Track the currently selected button
     private var selectedButton: MaterialButton? = null
+    private var selectedFingerButton: MaterialButton? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -95,11 +90,11 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             if (selectedButton == button) {
-                // Deselect if already selected
-                button.isChecked = false
-                selectedButton = null
-                // Handle what happens when no button is selected
-            } else {
+
+                //force button to stay selected
+                button.isChecked = true
+
+            }else{
                 // Deselect previous button
                 selectedButton?.isChecked = false
 
@@ -118,6 +113,15 @@ class MainActivity : AppCompatActivity() {
         val handButton : MaterialButton = findViewById(R.id.buttonHand)
         val fingerButton : MaterialButton = findViewById(R.id.buttonFinger)
         val forearmButton : MaterialButton = findViewById(R.id.buttonForearm)
+        //Finger buttons
+        val fingerButtons = mapOf(
+            "Thumb" to findViewById(R.id.buttonThumb),
+            "Index" to findViewById(R.id.buttonIndex),
+            "Middle" to findViewById(R.id.buttonMiddle),
+            "Ring" to findViewById(R.id.buttonRing),
+            "Pinky" to findViewById<MaterialButton>(R.id.buttonPinky)
+
+        )
 
         // Set up each button
         setupToggleButton(handButton, "Hand", false)
@@ -129,21 +133,31 @@ class MainActivity : AppCompatActivity() {
         selectedButton = handButton
         selectedMeasurementType = "Hand"
 
-        //Finger buttons
-        val fingerButtons = mapOf(
-            "Thumb" to findViewById(R.id.buttonThumb),
-            "Index" to findViewById(R.id.buttonIndex),
-            "Middle" to findViewById(R.id.buttonMiddle),
-            "Ring" to findViewById(R.id.buttonRing),
-            "Pinky" to findViewById<Button>(R.id.buttonPinky)
+        // Set up finger buttons
+       fingerButtons.forEach{ (fingerName, button) ->
 
-        )
+           button.isCheckable =true
 
-        for ((finger, button) in fingerButtons){
-            button.setOnClickListener{
-                selectedFingerType = finger
-            }
-        }
+           button.setOnClickListener {
+               if (selectedFingerButton == button) {
+                   //force button to stay selected
+                   button.isChecked = true
+
+               }else{
+                   // Deselect previous button
+                   selectedFingerButton?.isChecked = false
+
+                   // Select this button
+                   button.isChecked = true
+                   selectedFingerButton = button
+
+                   selectedFingerType = fingerName
+               }
+
+           }
+       }
+
+
     }
 
 
@@ -222,11 +236,13 @@ class MainActivity : AppCompatActivity() {
 
     fun onKeypadClick(view: View) {
         val inputField = findViewById<EditText>(R.id.editTextMeasurementValue)
+        val display = findViewById<TextView>(R.id.textViewResult)
         val currentText = inputField.text.toString()
         val currentCursorPosition = inputField.selectionStart
 
         // Check if it's the backspace button
         if (view.id == R.id.btnBack) {
+
             // Only proceed if there's text and cursor isn't at the beginning
             if (currentText.isNotEmpty() && currentCursorPosition > 0) {
                 // Create new text by removing the character before the cursor
@@ -240,7 +256,15 @@ class MainActivity : AppCompatActivity() {
                 // Place cursor at correct position (one position back from where it was)
                 inputField.setSelection(currentCursorPosition - 1)
             }
-        } else {
+        }
+        else if (view.id == R.id.btnAC) {
+
+            //clear the display
+            inputField.setText("")
+            display.text = ""
+            inputField.setSelection(0)
+        }
+        else {
             // This is a normal button (number)
             val button = view as MaterialButton
 
